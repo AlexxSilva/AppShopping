@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AppShopping.ViewModels"
+             x:Class="AppShopping.Views.FilmDetail" Padding="0,0,0,10">
+
+    <Shell.TitleView>
+        <ContentView>
+            <Image Source="TitleViewLogo" HorizontalOptions="Center"
+                   VerticalOptions="Center" HeightRequest="30"></Image>
+        </ContentView>
+    </Shell.TitleView>
+
+    <ContentPage.BindingContext>
+        <viewModels:FilmDetailViewModel></viewModels:FilmDetailViewModel>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+
+        <ScrollView>
+            <CollectionView ItemsSource="{Binding Film.SessionGroups}" IsGrouped="True">
+                <CollectionView.Header>
+                    <StackLayout Padding="10,10,10,10">
+                        <Label Text="Filme" Style="{StaticResource TitleType}"></Label>
+                        <Label  Text="{Binding Film.Name}" Style="{StaticResource TitleName}"></Label>
+                        <Frame Padding="10" Margin="0, 15,0,15">
+                            <Label Text="{Binding Film.Description}"/>
+                        </Frame>
+                        <Label Text="Sessões" Style="{StaticResource TitleType}"></Label>
+                    </StackLayout>
+                </CollectionView.Header>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding Name}" Padding="10,10,10,0"  Style="{StaticResource SessionTitle}"></Label>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView Padding="10,5">
+                            <Frame Padding="10" BorderColor="{StaticResource PrimaryColor}">
+                                <Label Text="{Binding .}" FontSize="24" HorizontalOptions="Center" TextColor="{StaticResource PrimaryColor}"></Label>
+                            </Frame>
+                        </ContentView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <BoxView HeightRequest="20" BackgroundColor="Transparent"></BoxView>
+                </CollectionView.Footer>
+            </CollectionView>
+        </ScrollView>
+
+    </ContentPage.Content>
+</ContentPage>

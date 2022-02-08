@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AppShopping.ViewModels"
+             xmlns:converters="clr-namespace:AppShopping.Library.Converters"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="AppShopping.Views.TicketPaidHistory">
+
+
+    <Shell.TitleView>
+        <ContentView>
+            <Image Source="TitleViewLogo" HorizontalOptions="Center"
+                   VerticalOptions="Center" HeightRequest="30"></Image>
+        </ContentView>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:PassingTimerConverter x:Key="PassingTimerConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <viewModels:TicketPageHistoryViewModel>
+
+        </viewModels:TicketPageHistoryViewModel>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout Padding="10,10,10,10">
+            <Label Text="Tickets" Style="{StaticResource TitleType}"></Label>
+            <Label  Text="Pagos" Style="{StaticResource TitleName}"></Label>
+            <CollectionView ItemsSource="{Binding Tickets}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView Padding="0,7">
+                            <yummy:PancakeView Padding="10" Margin="1" BackgroundColor="White">
+                                <yummy:PancakeView.Border>
+                                    <yummy:Border Color="#000000" Thickness="1" DashPattern="4,10" />
+                                </yummy:PancakeView.Border>
+                                <StackLayout>
+                                    <Label  Style="{StaticResource NameEstablishment}" FontSize="14">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}Ticket #{0}">
+                                                <Binding Path="Number"></Binding>
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+
+                                    <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
+                                        <Label Text="Permanência:"   Style="{StaticResource DescriptionEstablishment}" ></Label>
+                                        <Label Text="{Binding .,Converter={StaticResource PassingTimerConverter}}"   Style="{StaticResource DescriptionEstablishment}" ></Label>
+                                    </StackLayout>
+
+
+
+                                    <Label   Style="{StaticResource DescriptionEstablishment}" >
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}Entrada: {0}">
+                                                <Binding Path="StartDate"></Binding>
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+
+                                    <Label   Style="{StaticResource DescriptionEstablishment}" >
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}Saida: {0}">
+                                                <Binding Path="EndDate"></Binding>
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+
+
+                                    <Label Style="{StaticResource SubTitle}" FontSize="12">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat="{}Valor: R${0}">
+                                                <Binding Path="Price"></Binding>
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                </StackLayout>
+                            </yummy:PancakeView>
+                        </ContentView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

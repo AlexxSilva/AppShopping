@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:AppShopping.ViewModels"
+             x:Name="StorePage"
+             xmlns:enums="clr-namespace:AppShopping.Library.Enums"
+             x:Class="AppShopping.Views.Stores">
+
+    <Shell.TitleView>
+        <ContentView>
+            <Image Source="TitleViewLogo" HorizontalOptions="Center"
+                   VerticalOptions="Center" HeightRequest="30"></Image>
+        </ContentView>
+    </Shell.TitleView>
+
+    <ContentPage.BindingContext>
+        <viewModels:StoresViewModel>
+            <x:Arguments>
+                <enums:EstablishmentType>Store</enums:EstablishmentType>
+            </x:Arguments>
+        </viewModels:StoresViewModel>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid Margin="10,0" ColumnDefinitions="*,70" RowDefinitions="50">
+                <Frame>
+                    <Entry Placeholder="Pesquisa" Text="{Binding SearchWord}" />
+                </Frame>
+                <Button Text="OK" Command="{Binding SearchCommand}" Grid.Column="1" Style="{StaticResource PrimaryButton}"></Button>
+            </Grid>
+          
+            <CollectionView ItemsSource="{Binding Establishments}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView Padding="10">
+                            <Frame HasShadow="False" CornerRadius="0" Padding="1"
+                                   BorderColor="{StaticResource BorderColor}">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference StorePage},Path=BindingContext.DetailCommand}" 
+                                                          CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                                <Grid ColumnDefinitions="1*,1, 2*" RowDefinitions="96">
+                                    <Image HeightRequest="80" Source="{Binding Logo}" Margin="10"></Image>
+                                    <Line Grid.Column="1" Stroke="Black" StrokeDashArray="3,3"  X1="0" X2="0" Y1="0" Y2="96"></Line>
+                                    <StackLayout Grid.Column="2" Margin="10">
+                                        <Label Text="{Binding Name}" Style="{StaticResource NameEstablishment}"></Label>
+                                        <Label Text="{Binding Description}" MaxLines="3" Style="{StaticResource DescriptionEstablishment}"></Label>   
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </ContentView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
